@@ -3,21 +3,30 @@ import pytesseract
 import os
 
 
-"""Выведет в консоль распознвный текст"""
-def execute_v2(path_to_immage: str) -> None:
+def execute_v2(path_to_immage: str, path_to_tesseract: str) -> None:
+    """
+    Выведет в консоль распознвный текст
+    :param path_to_immage: Путь до изображения
+    :param path_to_tesseract: Путь до исполняемого файла tesseract
+    """
     # Путь для подключения tesseract
-    pytesseract.pytesseract.tesseract_cmd = 'E:\\Programs\\tesseract\\tesseract.exe'
+    pytesseract.pytesseract.tesseract_cmd = path_to_tesseract
     # Подключение фото
     img = cv2.imread(path_to_immage)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     config = r' --oem 1 --psm 3'
-    result = pytesseract.image_to_string(img, config=config)
+    result = pytesseract.image_to_string(img, config=config, lang='rus+eng')
     print(result)
 
-"""Выделит на изображении распознвный текст"""
-def execute_v1(path_to_immage: str) -> None:
+
+def execute_v1(path_to_immage: str, path_to_tesseract: str) -> None:
+    """
+    Выделит на изображении распознвный текст
+    :param path_to_immage: Путь до изображения
+    :param path_to_tesseract: Путь до исполняемого файла tesseract
+    """
     # Путь для подключения tesseract
-    pytesseract.pytesseract.tesseract_cmd = 'E:\\Programs\\tesseract\\tesseract.exe'
+    pytesseract.pytesseract.tesseract_cmd = path_to_tesseract
     # Подключение фото
     img = cv2.imread(path_to_immage)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -44,13 +53,14 @@ def execute_v1(path_to_immage: str) -> None:
     cv2.imshow('Result', img)
     cv2.waitKey(0)
 
+
 if __name__ == '__main__':
     path = './temp/000c21928ecf59ddcc3c1ca08a1e7f06c7d9249b.jpg'
+    tesseract_exe = 'E:\\Programs\\tesseract\\tesseract.exe'
+
     if os.path.isfile(path):
         print("Файл существует")
-        #execute_v1(path)
-        execute_v2(path)
+        #execute_v1(path_to_immage=path, path_to_tesseract=tesseract_exe)
+        execute_v2(path_to_immage=path, path_to_tesseract=tesseract_exe)
     else:
         print("Файл не существует")
-
-
